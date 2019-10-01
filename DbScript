@@ -1,0 +1,1013 @@
+CREATE DATABASE  IF NOT EXISTS `coffeetest_db` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `coffeetest_db`;
+-- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: coffeetest_db
+-- ------------------------------------------------------
+-- Server version	5.5.23
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `answervariants`
+--
+
+DROP TABLE IF EXISTS `answervariants`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `answervariants` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `html` text,
+  `contentElements_id` int(11) NOT NULL,
+  `sortIndex` int(11) DEFAULT NULL,
+  `isActive` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `fk_answerVariants_contentElements1_idx` (`contentElements_id`),
+  CONSTRAINT `fk_answerVariants_contentElements1` FOREIGN KEY (`contentElements_id`) REFERENCES `contentelements` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `answervariants`
+--
+
+LOCK TABLES `answervariants` WRITE;
+/*!40000 ALTER TABLE `answervariants` DISABLE KEYS */;
+/*!40000 ALTER TABLE `answervariants` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `content`
+--
+
+DROP TABLE IF EXISTS `content`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `content` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idParent` int(11) DEFAULT '-1',
+  `name` varchar(45) DEFAULT NULL,
+  `users_id` int(11) DEFAULT NULL,
+  `contentType_id` int(11) NOT NULL,
+  `questionaireOptions_id` int(11) DEFAULT NULL,
+  `courseOptions_id` int(11) DEFAULT NULL,
+  `contentDeveloper_id` int(11) DEFAULT NULL,
+  `isActive` tinyint(1) NOT NULL DEFAULT '0',
+  `sortIndex` int(11) DEFAULT '0',
+  `isMixElements` tinyint(1) DEFAULT '0',
+  `testOptions_id` int(11) DEFAULT NULL,
+  `timeOptions_id` int(11) DEFAULT NULL,
+  `language_id` int(11) NOT NULL,
+  `isFolder` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `sortIndex_UNIQUE` (`sortIndex`),
+  KEY `fk_tests_users1_idx` (`users_id`),
+  KEY `fk_content_contentType1_idx` (`contentType_id`),
+  KEY `fk_content_questionaireOptions1_idx` (`questionaireOptions_id`),
+  KEY `fk_content_contentDeveloper1_idx` (`contentDeveloper_id`),
+  KEY `fk_content_content1_idx` (`idParent`),
+  KEY `fk_content_testOptions1_idx` (`testOptions_id`),
+  KEY `fk_content_timeOptions1_idx` (`timeOptions_id`),
+  KEY `fk_content_language1_idx` (`language_id`),
+  CONSTRAINT `fk_content_content1` FOREIGN KEY (`idParent`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_content_contentDeveloper1` FOREIGN KEY (`contentDeveloper_id`) REFERENCES `contentdeveloper` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `fk_content_contentType1` FOREIGN KEY (`contentType_id`) REFERENCES `contenttype` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_content_language1` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_content_questionaireOptions1` FOREIGN KEY (`questionaireOptions_id`) REFERENCES `questionaireoptions` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `fk_content_testOptions1` FOREIGN KEY (`testOptions_id`) REFERENCES `testoptions` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `fk_content_timeOptions1` FOREIGN KEY (`timeOptions_id`) REFERENCES `timeoptions` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tests_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `content`
+--
+
+LOCK TABLES `content` WRITE;
+/*!40000 ALTER TABLE `content` DISABLE KEYS */;
+INSERT INTO `content` VALUES (-1,NULL,'foTests4',NULL,1,NULL,NULL,NULL,1,14,0,NULL,NULL,1,0),(1,-1,'root',NULL,1,NULL,NULL,NULL,0,15,0,NULL,NULL,1,1);
+/*!40000 ALTER TABLE `content` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVISION_BY_ZERO,TRADITIONAL,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `coffeetest_db`.`content_BEFORE_INSERT` BEFORE INSERT ON `content` FOR EACH ROW
+BEGIN
+
+SELECT 
+    MAX(sortIndex)
+FROM
+    coffeetest_db.content INTO @r;
+
+
+ if @r is NULL then 
+  begin
+  set NEW.sortIndex = 0;
+  end;  
+  else 
+  begin
+    set NEW.sortIndex = @r + 1;
+  end;
+  end if;
+
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `contentdeveloper`
+--
+
+DROP TABLE IF EXISTS `contentdeveloper`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `contentdeveloper` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contentdeveloper`
+--
+
+LOCK TABLES `contentdeveloper` WRITE;
+/*!40000 ALTER TABLE `contentdeveloper` DISABLE KEYS */;
+INSERT INTO `contentdeveloper` VALUES (1,'testName'),(2,'testName'),(3,'testName'),(4,'testName'),(5,'testName');
+/*!40000 ALTER TABLE `contentdeveloper` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `contentelementdecisions`
+--
+
+DROP TABLE IF EXISTS `contentelementdecisions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `contentelementdecisions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `html` text,
+  `users_id` int(11) DEFAULT NULL,
+  `sortIndex` int(11) DEFAULT NULL,
+  `contentElements_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_contentElementDecision_users1_idx` (`users_id`),
+  KEY `fk_contentElementDecisions_contentElements1_idx` (`contentElements_id`),
+  CONSTRAINT `fk_contentElementDecisions_contentElements1` FOREIGN KEY (`contentElements_id`) REFERENCES `contentelements` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_contentElementDecision_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contentelementdecisions`
+--
+
+LOCK TABLES `contentelementdecisions` WRITE;
+/*!40000 ALTER TABLE `contentelementdecisions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contentelementdecisions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `contentelements`
+--
+
+DROP TABLE IF EXISTS `contentelements`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `contentelements` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `html` text,
+  `content_id` int(11) NOT NULL,
+  `isMixAnswerVariants` tinyint(1) NOT NULL DEFAULT '0',
+  `sortIndex` int(11) NOT NULL DEFAULT '0',
+  `testQuestionType_id` int(11) DEFAULT NULL,
+  `timePerContentElement` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_contentElements_content1_idx` (`content_id`),
+  KEY `fk_contentElements_testQuestionType1_idx` (`testQuestionType_id`),
+  CONSTRAINT `fk_contentElements_content1` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_contentElements_testQuestionType1` FOREIGN KEY (`testQuestionType_id`) REFERENCES `testquestiontype` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contentelements`
+--
+
+LOCK TABLES `contentelements` WRITE;
+/*!40000 ALTER TABLE `contentelements` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contentelements` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `contentscales`
+--
+
+DROP TABLE IF EXISTS `contentscales`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `contentscales` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(90) DEFAULT NULL,
+  `value` decimal(10,2) DEFAULT NULL,
+  `formula` text,
+  `content_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_contentScales_content1_idx` (`content_id`),
+  CONSTRAINT `fk_contentScales_content1` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contentscales`
+--
+
+LOCK TABLES `contentscales` WRITE;
+/*!40000 ALTER TABLE `contentscales` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contentscales` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `contenttype`
+--
+
+DROP TABLE IF EXISTS `contenttype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `contenttype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contenttype`
+--
+
+LOCK TABLES `contenttype` WRITE;
+/*!40000 ALTER TABLE `contenttype` DISABLE KEYS */;
+INSERT INTO `contenttype` VALUES (1,'test'),(2,'questionaire'),(3,'course');
+/*!40000 ALTER TABLE `contenttype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `emailsettings`
+--
+
+DROP TABLE IF EXISTS `emailsettings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `emailsettings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `host` varchar(45) NOT NULL,
+  `port` int(11) NOT NULL,
+  `email` varchar(90) NOT NULL,
+  `password` varchar(90) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `emailsettings`
+--
+
+LOCK TABLES `emailsettings` WRITE;
+/*!40000 ALTER TABLE `emailsettings` DISABLE KEYS */;
+INSERT INTO `emailsettings` VALUES (1,'smtp.yandex.ru',465,'shop.bel-ozero@yandex.ru','74{nmPkDPFTckTh?R6');
+/*!40000 ALTER TABLE `emailsettings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `eventcontents`
+--
+
+DROP TABLE IF EXISTS `eventcontents`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `eventcontents` (
+  `events_id` int(11) NOT NULL,
+  `content_id` int(11) NOT NULL,
+  PRIMARY KEY (`events_id`,`content_id`),
+  KEY `fk_events_has_content_content1_idx` (`content_id`),
+  KEY `fk_events_has_content_events1_idx` (`events_id`),
+  CONSTRAINT `fk_events_has_content_content1` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_events_has_content_events1` FOREIGN KEY (`events_id`) REFERENCES `events` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `eventcontents`
+--
+
+LOCK TABLES `eventcontents` WRITE;
+/*!40000 ALTER TABLE `eventcontents` DISABLE KEYS */;
+/*!40000 ALTER TABLE `eventcontents` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `eventparticipants`
+--
+
+DROP TABLE IF EXISTS `eventparticipants`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `eventparticipants` (
+  `users_id` int(11) NOT NULL,
+  `events_id` int(11) NOT NULL,
+  PRIMARY KEY (`users_id`,`events_id`),
+  KEY `fk_users_has_events_events1_idx` (`events_id`),
+  KEY `fk_users_has_events_users1_idx` (`users_id`),
+  CONSTRAINT `fk_users_has_events_events1` FOREIGN KEY (`events_id`) REFERENCES `events` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_has_events_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `eventparticipants`
+--
+
+LOCK TABLES `eventparticipants` WRITE;
+/*!40000 ALTER TABLE `eventparticipants` DISABLE KEYS */;
+/*!40000 ALTER TABLE `eventparticipants` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `events`
+--
+
+DROP TABLE IF EXISTS `events`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `events` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idParent` int(11) DEFAULT NULL,
+  `name` varchar(45) NOT NULL,
+  `eventTypes_id` int(11) NOT NULL,
+  `isActive` tinyint(1) DEFAULT '0',
+  `users_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_events_eventTypes1_idx` (`eventTypes_id`),
+  KEY `fk_events_users1_idx` (`users_id`),
+  CONSTRAINT `fk_events_eventTypes1` FOREIGN KEY (`eventTypes_id`) REFERENCES `eventtypes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_events_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `events`
+--
+
+LOCK TABLES `events` WRITE;
+/*!40000 ALTER TABLE `events` DISABLE KEYS */;
+INSERT INTO `events` VALUES (-1,-1,'root',1,1,0),(3,-1,'testName',1,1,0),(4,-1,'testName',1,1,0),(5,-1,'testName',1,1,0),(6,-1,'testName',1,1,0);
+/*!40000 ALTER TABLE `events` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `eventschedules`
+--
+
+DROP TABLE IF EXISTS `eventschedules`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `eventschedules` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `dtStart` datetime DEFAULT NULL,
+  `dtFinish` datetime DEFAULT NULL,
+  `events_id` int(11) NOT NULL,
+  `periodInSeconds` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_eventSchedules_events1_idx` (`events_id`),
+  CONSTRAINT `fk_eventSchedules_events1` FOREIGN KEY (`events_id`) REFERENCES `events` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `eventschedules`
+--
+
+LOCK TABLES `eventschedules` WRITE;
+/*!40000 ALTER TABLE `eventschedules` DISABLE KEYS */;
+INSERT INTO `eventschedules` VALUES (1,'2019-05-03 00:00:00','2019-05-03 00:00:00',-1,1),(15,NULL,NULL,-1,NULL),(16,NULL,NULL,-1,NULL),(17,'2019-05-03 00:00:00','2019-05-03 00:00:00',-1,1),(18,'2019-05-03 00:00:00','2019-05-03 00:00:00',-1,1),(19,'2019-05-03 00:00:00','2019-05-03 00:00:00',-1,1);
+/*!40000 ALTER TABLE `eventschedules` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `eventtypes`
+--
+
+DROP TABLE IF EXISTS `eventtypes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `eventtypes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL COMMENT 'Безлимитное\nОдиночное\nРегулярное\nСпециальный график\n',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `eventtypes`
+--
+
+LOCK TABLES `eventtypes` WRITE;
+/*!40000 ALTER TABLE `eventtypes` DISABLE KEYS */;
+INSERT INTO `eventtypes` VALUES (1,'unlimited'),(2,'once'),(3,'regular'),(4,'customSchedule');
+/*!40000 ALTER TABLE `eventtypes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `language`
+--
+
+DROP TABLE IF EXISTS `language`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `language` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `language`
+--
+
+LOCK TABLES `language` WRITE;
+/*!40000 ALTER TABLE `language` DISABLE KEYS */;
+INSERT INTO `language` VALUES (1,'rus'),(2,'eng'),(4,'fra'),(5,'testName');
+/*!40000 ALTER TABLE `language` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `languagedictionary`
+--
+
+DROP TABLE IF EXISTS `languagedictionary`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `languagedictionary` (
+  `id` int(11) NOT NULL,
+  `value` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `languagedictionary`
+--
+
+LOCK TABLES `languagedictionary` WRITE;
+/*!40000 ALTER TABLE `languagedictionary` DISABLE KEYS */;
+/*!40000 ALTER TABLE `languagedictionary` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `languagedictionary_has_language`
+--
+
+DROP TABLE IF EXISTS `languagedictionary_has_language`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `languagedictionary_has_language` (
+  `languageDictionary_id` int(11) NOT NULL DEFAULT '0',
+  `language_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`languageDictionary_id`,`language_id`),
+  KEY `fk_languageDictionary_has_language_language1_idx` (`language_id`),
+  KEY `fk_languageDictionary_has_language_languageDictionary1_idx` (`languageDictionary_id`),
+  CONSTRAINT `fk_languageDictionary_has_language_language1` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_languageDictionary_has_language_languageDictionary1` FOREIGN KEY (`languageDictionary_id`) REFERENCES `languagedictionary` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `languagedictionary_has_language`
+--
+
+LOCK TABLES `languagedictionary_has_language` WRITE;
+/*!40000 ALTER TABLE `languagedictionary_has_language` DISABLE KEYS */;
+/*!40000 ALTER TABLE `languagedictionary_has_language` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `questionaireoptions`
+--
+
+DROP TABLE IF EXISTS `questionaireoptions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `questionaireoptions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `questionaireType_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_questionaireOptions_questionaireType1_idx` (`questionaireType_id`),
+  CONSTRAINT `fk_questionaireOptions_questionaireType1` FOREIGN KEY (`questionaireType_id`) REFERENCES `questionairetype` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `questionaireoptions`
+--
+
+LOCK TABLES `questionaireoptions` WRITE;
+/*!40000 ALTER TABLE `questionaireoptions` DISABLE KEYS */;
+INSERT INTO `questionaireoptions` VALUES (2,1),(3,1),(4,1);
+/*!40000 ALTER TABLE `questionaireoptions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `questionairetype`
+--
+
+DROP TABLE IF EXISTS `questionairetype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `questionairetype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL COMMENT '90\n180\n360\n720',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `questionairetype`
+--
+
+LOCK TABLES `questionairetype` WRITE;
+/*!40000 ALTER TABLE `questionairetype` DISABLE KEYS */;
+INSERT INTO `questionairetype` VALUES (1,'classic'),(2,'360');
+/*!40000 ALTER TABLE `questionairetype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `registrationcodes`
+--
+
+DROP TABLE IF EXISTS `registrationcodes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `registrationcodes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(20) NOT NULL,
+  `creationDateTime` datetime NOT NULL,
+  `lifeTimeInSeconds` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code_UNIQUE` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `registrationcodes`
+--
+
+LOCK TABLES `registrationcodes` WRITE;
+/*!40000 ALTER TABLE `registrationcodes` DISABLE KEYS */;
+INSERT INTO `registrationcodes` VALUES (133,'42128576239449','2019-09-07 20:35:08',60),(135,'71262736323035','2019-09-08 09:03:44',0),(136,'36048213569111','2019-09-08 09:03:45',60);
+/*!40000 ALTER TABLE `registrationcodes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reports`
+--
+
+DROP TABLE IF EXISTS `reports`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reports` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `html` text,
+  `reportType_id` int(11) NOT NULL,
+  `events_id` int(11) DEFAULT NULL,
+  `content_id` int(11) DEFAULT NULL,
+  `language_id` int(11) NOT NULL,
+  `DT` datetime NOT NULL,
+  `users_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_reports_reportType1_idx` (`reportType_id`),
+  KEY `fk_reports_events1_idx` (`events_id`),
+  KEY `fk_reports_content1_idx` (`content_id`),
+  KEY `fk_reports_language1_idx` (`language_id`),
+  KEY `fk_reports_users1_idx` (`users_id`),
+  CONSTRAINT `fk_reports_content1` FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `fk_reports_events1` FOREIGN KEY (`events_id`) REFERENCES `events` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `fk_reports_language1` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_reports_reportType1` FOREIGN KEY (`reportType_id`) REFERENCES `reporttype` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_reports_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reports`
+--
+
+LOCK TABLES `reports` WRITE;
+/*!40000 ALTER TABLE `reports` DISABLE KEYS */;
+INSERT INTO `reports` VALUES (1,'123','<h1>123</h1>',1,NULL,NULL,1,'2019-07-24 08:48:00',0),(2,'456','<h1>456</h1>',2,NULL,NULL,1,'2019-07-23 08:48:00',0);
+/*!40000 ALTER TABLE `reports` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVISION_BY_ZERO,TRADITIONAL,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `coffeetest_db`.`reports_BEFORE_UPDATE` BEFORE UPDATE ON `reports` FOR EACH ROW
+BEGIN
+  SET NEW.DT=Now();
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `reporttype`
+--
+
+DROP TABLE IF EXISTS `reporttype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reporttype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reporttype`
+--
+
+LOCK TABLES `reporttype` WRITE;
+/*!40000 ALTER TABLE `reporttype` DISABLE KEYS */;
+INSERT INTO `reporttype` VALUES (1,'user'),(2,'userEvent'),(3,'userEventContent'),(4,'event'),(5,'content');
+/*!40000 ALTER TABLE `reporttype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles`
+--
+
+LOCK TABLES `roles` WRITE;
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` VALUES (1,'admin'),(2,'user');
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `testoptions`
+--
+
+DROP TABLE IF EXISTS `testoptions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `testoptions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `isAdaptive` tinyint(1) DEFAULT NULL,
+  `isEducational` tinyint(1) DEFAULT NULL COMMENT 'Можно остановить время\nПосмотреть решение к задаче',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `testoptions`
+--
+
+LOCK TABLES `testoptions` WRITE;
+/*!40000 ALTER TABLE `testoptions` DISABLE KEYS */;
+INSERT INTO `testoptions` VALUES (1,1,1),(2,1,1),(3,NULL,NULL),(4,NULL,NULL),(5,NULL,NULL),(6,NULL,NULL),(7,NULL,NULL),(8,NULL,NULL);
+/*!40000 ALTER TABLE `testoptions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `testoptionsadaptivity`
+--
+
+DROP TABLE IF EXISTS `testoptionsadaptivity`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `testoptionsadaptivity` (
+  `id` int(11) NOT NULL,
+  `testOptions_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_testOptionsAdaptivity_testOptions1_idx` (`testOptions_id`),
+  CONSTRAINT `fk_testOptionsAdaptivity_testOptions1` FOREIGN KEY (`testOptions_id`) REFERENCES `testoptions` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `testoptionsadaptivity`
+--
+
+LOCK TABLES `testoptionsadaptivity` WRITE;
+/*!40000 ALTER TABLE `testoptionsadaptivity` DISABLE KEYS */;
+/*!40000 ALTER TABLE `testoptionsadaptivity` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `testquestiontype`
+--
+
+DROP TABLE IF EXISTS `testquestiontype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `testquestiontype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `testquestiontype`
+--
+
+LOCK TABLES `testquestiontype` WRITE;
+/*!40000 ALTER TABLE `testquestiontype` DISABLE KEYS */;
+INSERT INTO `testquestiontype` VALUES (1,'OneCorrectAnswer'),(2,'ManyCorrectAnswers');
+/*!40000 ALTER TABLE `testquestiontype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `timeoptions`
+--
+
+DROP TABLE IF EXISTS `timeoptions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `timeoptions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `timeoptions`
+--
+
+LOCK TABLES `timeoptions` WRITE;
+/*!40000 ALTER TABLE `timeoptions` DISABLE KEYS */;
+INSERT INTO `timeoptions` VALUES (1,'unlimited'),(2,'perContent'),(3,'perContentElement');
+/*!40000 ALTER TABLE `timeoptions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `userregistrations`
+--
+
+DROP TABLE IF EXISTS `userregistrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `userregistrations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `creationDateTime` datetime NOT NULL,
+  `lifeTimeInSeconds` int(11) NOT NULL DEFAULT '259200',
+  `isConfirmed` tinyint(1) DEFAULT NULL,
+  `users_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_userRegistrations_users1_idx` (`users_id`),
+  CONSTRAINT `fk_userRegistrations_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `userregistrations`
+--
+
+LOCK TABLES `userregistrations` WRITE;
+/*!40000 ALTER TABLE `userregistrations` DISABLE KEYS */;
+INSERT INTO `userregistrations` VALUES (6,'2019-09-07 20:34:32',123,1,-1),(9,'2019-09-08 09:03:44',259200,1,75);
+/*!40000 ALTER TABLE `userregistrations` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVISION_BY_ZERO,TRADITIONAL,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `coffeetest_db`.`userRegistrations_BEFORE_INSERT` BEFORE INSERT ON `userRegistrations` FOR EACH ROW
+BEGIN
+  SET NEW.creationDateTime=Now();
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idParent` int(11) DEFAULT NULL,
+  `email` varchar(45) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `passMD5` varchar(90) DEFAULT NULL,
+  `roles_id` int(11) NOT NULL DEFAULT '2',
+  `isActive` tinyint(1) DEFAULT '1',
+  `name` varchar(45) DEFAULT NULL,
+  `family` varchar(45) DEFAULT NULL,
+  `patronymic` varchar(45) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `isGenderMale` tinyint(1) NOT NULL,
+  `interfacelanguage_id` int(11) NOT NULL,
+  `isFolder` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email_UNIQUE` (`email`),
+  KEY `fk_users_roles_idx` (`roles_id`),
+  KEY `fk_users_users1_idx` (`idParent`),
+  KEY `fk_users_language1_idx` (`interfacelanguage_id`),
+  CONSTRAINT `fk_users_language1` FOREIGN KEY (`interfacelanguage_id`) REFERENCES `language` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_roles` FOREIGN KEY (`roles_id`) REFERENCES `roles` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_users1` FOREIGN KEY (`idParent`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (-1,NULL,'admin@gmail.com',NULL,NULL,1,1,NULL,NULL,NULL,NULL,1,1,1),(1,-1,'root',NULL,NULL,1,1,'root',NULL,NULL,NULL,1,1,1),(75,1,'panteleevstas@gmail.com','','d9b1d7db4cd6e70935368a1efb10e377',1,0,'Stanislav','Panteleev','',NULL,0,1,0);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVISION_BY_ZERO,TRADITIONAL,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `coffeetest_db`.`users_BEFORE_INSERT` BEFORE INSERT ON `users` FOR EACH ROW
+BEGIN
+   SET NEW.passMD5=md5(NEW.passMD5);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVISION_BY_ZERO,TRADITIONAL,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `coffeetest_db`.`users_BEFORE_UPDATE` BEFORE UPDATE ON `users` FOR EACH ROW
+BEGIN   
+   SET NEW.passMD5=md5(NEW.passMD5);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Dumping events for database 'coffeetest_db'
+--
+
+--
+-- Dumping routines for database 'coffeetest_db'
+--
+/*!50003 DROP FUNCTION IF EXISTS `incSortIndex` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVISION_BY_ZERO,TRADITIONAL,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `incSortIndex`() RETURNS int(11)
+BEGIN
+ 
+SELECT 
+    MAX(sortIndex)
+FROM
+    coffeetest_db.content INTO @r;
+
+
+ if @r is NULL then 
+  begin
+  set @r=0 ;
+  end;  
+  else 
+  begin
+    set @r=@r + 1;
+  end;
+  end if;
+
+    return @r;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP FUNCTION IF EXISTS `IsUserPasswordOk` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVISION_BY_ZERO,TRADITIONAL,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `IsUserPasswordOk`(aUserEmail varchar(45), aUserPassword varchar(45)) RETURNS int(11)
+BEGIN
+  DECLARE result int;
+  
+SELECT 
+    id
+FROM
+    users u
+WHERE
+    email = aUserEmail
+        AND MD5(aUserPassword) = MD5(u.pass) into result;
+  
+  if result is NULL then 
+  begin
+  set result=-1; 
+  end;  
+  else 
+  begin
+  set result=1; 
+  end;
+  end if;
+  
+RETURN result;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
